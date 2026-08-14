@@ -1,0 +1,17 @@
+# Dependencies
+__pycache__/
+*.pyc
+
+# Output files
+output/
+
+# Temp files
+*.tmp
+*.bak
+
+# OS
+.DS_Store
+Thumbs.db
+
+# WorkBuddy internal
+.workbuddy/
