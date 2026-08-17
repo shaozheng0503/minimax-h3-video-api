@@ -1,6 +1,6 @@
 # MiniMax H3 视频生成 API 接入文档
 
-## ComfyUI API · 端口 3000 同步调用
+## ComfyUI API · 端口 3000（API 调用）+ 端口 8188（可视化界面）
 
 ---
 
@@ -14,11 +14,12 @@
 
 | 项目 | 说明 |
 |------|------|
-| 接口地址 | `https://<你的服务地址>:3000` |
-| 调用方式 | HTTP REST（同步） |
+| API 接口地址 | `https://<你的服务地址>:3000` |
+| 可视化界面 | `https://<你的服务地址>:8188`（浏览器打开即可查看 ComfyUI 界面） |
+| 调用方式 | HTTP REST（同步 + 异步 webhook 两种模式） |
 | 认证 | 无需认证，直接 HTTP 调用 |
 | CORS | 已启用，浏览器端可直接调用 |
-| 交互文档 | `/docs`（Swagger UI，浏览器打开即可在线测试） |
+| 交互文档 | API 地址 + `/docs`（Swagger UI，浏览器打开即可在线测试） |
 | ComfyUI 版本 | 0.31.0 |
 | API 代理版本 | comfyui-api 1.17.1 |
 
@@ -33,6 +34,8 @@ curl -s "https://<你的服务地址>:3000/health"
 curl -s "https://<你的服务地址>:3000/ready"
 # 返回: {"version":"1.17.1","status":"ready"}
 ```
+
+> 也可以直接在浏览器打开 `https://<你的服务地址>:8188` 查看 ComfyUI 可视化界面。
 
 ### 参数速查
 

@@ -11,7 +11,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from comfyui_minimax_h3_sdk import ComfyUI, build_t2v_workflow, generate_video
 
-BASE_URL = "https://deployment-452-irack1dl-3000.550w.link"
+BASE_URL = "https://deployment-452-isgikjrp-3000.550w.link"
 SAVE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "output")
 
 print("=" * 60)
