@@ -909,19 +909,23 @@ def build_ref2v_workflow(
 
 
 # ============================================================
-# Webhook 验证工具（可选，需安装 svix: pip install svix）
+# Webhook 验证工具（纯标准库实现，兼容 Standard Webhooks）
 # ============================================================
-def verify_webhook(body_bytes, headers, secret):
+def verify_webhook(body_bytes, headers, secret, tolerance=300):
     """
-    验证 Standard Webhooks 签名（需安装 svix 库）
+    验证 Standard Webhooks 签名（纯标准库实现，无需安装 svix）
+
+    签名格式: v1,<base64(HMAC-SHA256(secret, "{id}.{timestamp}.{body}"))>
+    支持多签名（空格分隔，任一匹配即通过）。
 
     参数:
         body_bytes: 原始请求体字节
         headers:    请求头 dict（需包含 webhook-id, webhook-timestamp, webhook-signature）
-        secret:     WEBHOOK_SECRET 密钥
+        secret:     WEBHOOK_SECRET 密钥（不带 whsec_ 前缀也可以，会自动剥离）
+        tolerance:  时间戳容差（秒），防止重放攻击，默认 300
 
     返回:
-        验证通过返回解析后的 JSON payload，失败抛出异常
+        验证通过返回解析后的 JSON payload，失败抛 ValueError
 
     示例:
         from comfyui_minimax_h3_sdk import verify_webhook
@@ -933,9 +937,52 @@ def verify_webhook(body_bytes, headers, secret):
                 # 处理成功回调
                 pass
     """
-    from svix import Webhook
-    wh = Webhook(secret)
-    return wh.verify(body_bytes, dict(headers))
+    import base64 as _b64
+    import hashlib as _hl
+    import hmac as _hmac
+    import time as _time
+
+    def _get(headers, *names):
+        for n in names:
+            for k, v in (headers or {}).items():
+                if k.lower() == n.lower():
+                    return v if isinstance(v, str) else (v[0] if v else None)
+        return None
+
+    msg_id = _get(headers, "webhook-id")
+    ts = _get(headers, "webhook-timestamp")
+    sig_header = _get(headers, "webhook-signature")
+    if not (msg_id and ts and sig_header):
+        raise ValueError("missing webhook headers (need webhook-id/timestamp/signature)")
+
+    # 时间戳容差检查（防重放）
+    try:
+        if abs(_time.time() - int(ts)) > tolerance:
+            raise ValueError("webhook timestamp outside tolerance")
+    except ValueError:
+        raise
+    except Exception:
+        raise ValueError("invalid webhook timestamp")
+
+    # 密钥自动剥离 whsec_ 前缀
+    if isinstance(secret, str):
+        secret_bytes = secret.encode()
+        if secret_bytes.startswith(b"whsec_"):
+            secret_bytes = secret_bytes[6:]
+    else:
+        secret_bytes = secret
+
+    # 多签名任一匹配
+    to_sign = msg_id + "." + ts + "." + body_bytes.decode("utf-8", errors="replace")
+    expected = _b64.b64encode(
+        _hmac.new(secret_bytes, to_sign.encode("utf-8"), _hl.sha256).digest()
+    ).decode()
+    for sig in sig_header.split():
+        if sig.startswith("v1,"):
+            if _hmac.compare_digest(sig[3:], expected):
+                import json as _json
+                return _json.loads(body_bytes)
+    raise ValueError("webhook signature verification failed")
 
 
 # ============================================================

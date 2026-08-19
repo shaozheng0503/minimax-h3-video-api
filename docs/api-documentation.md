@@ -165,7 +165,7 @@ curl -s -X POST "https://<你的服务地址>:3000/download" \
 | **同步** | `POST /prompt`（不带 `webhook_v2`） | HTTP 200，响应体直接包含结果 | 测试、客户端能长等待 |
 | **异步（webhook）** | `POST /prompt`（带 `webhook_v2` URL） | HTTP 202，立即返回任务 ID，完成后回调 | **生产推荐**、避免超时、批量任务 |
 
-> **重要**：弹性服务的容器网关有 **100 秒超时限制**，而视频生成需要 2-10 分钟。同步模式的 HTTP 连接会被网关切断，导致拿不到结果。**生产环境必须用异步 webhook 模式。**
+> **重要**：实测同步请求 **193 秒**未被网关切断（720p/10s 档实测通过），但网关确有超时上限，而 1080p/15s 生成最高可达 25 分钟。同步模式仅建议用于 720p 以下、约 3 分钟内能完成的任务；**长任务生产环境必须用异步 webhook 模式**，避免连接被切后拿不到结果。
 
 ### 请求参数
 
@@ -464,14 +464,34 @@ curl -s -X POST "https://<你的服务地址>:3000/download" \
 
 #### Python 验证 Webhook 签名
 
+SDK 已内置纯标准库实现（无需安装任何依赖）：
+
 ```python
-from svix import Webhook
+from comfyui_minimax_h3_sdk import verify_webhook
+
+payload = verify_webhook(body_bytes, dict(headers), SECRET)
+# 验证通过返回解析后的 JSON；失败抛 ValueError（签名不符/时间戳过期）
+```
+
+等价的纯手写实现（HMAC-SHA256，Standard Webhooks 规范）：
+
+```python
+import base64, hashlib, hmac, json
 
 def verify_webhook(body_bytes, headers, secret):
-    """验证 Standard Webhooks 签名"""
-    webhook = Webhook(secret)
-    payload = webhook.verify(body_bytes, dict(headers))
-    return payload  # 验证通过返回解析后的 JSON
+    to_sign = "{id}.{ts}.{body}".format(
+        id=headers["webhook-id"],
+        ts=headers["webhook-timestamp"],
+        body=body_bytes.decode("utf-8"),
+    )
+    key = secret.removeprefix("whsec_").encode()
+    expected = base64.b64encode(
+        hmac.new(key, to_sign.encode(), hashlib.sha256).digest()
+    ).decode()
+    for sig in headers["webhook-signature"].split():
+        if sig.startswith("v1,") and hmac.compare_digest(sig[3:], expected):
+            return json.loads(body_bytes)
+    raise ValueError("signature verification failed")
 ```
 
 #### Node.js 验证 Webhook 签名
@@ -922,7 +942,7 @@ result.images?.forEach((base64Data, i) => {
 
 ### 7.4 异步模式（Webhook 回调 — 生产推荐）
 
-弹性服务的容器网关有 **100 秒超时限制**，而视频生成需要 2-10 分钟。同步模式的 HTTP 连接会被网关切断。**生产环境必须用异步 webhook 模式**：提交后立即返回（HTTP 202），结果完成后服务端回调你的接口。
+网关确有超时上限（实测 193 秒内同步可用），而 1080p/15s 视频生成最高可达 25 分钟，同步连接无法覆盖全部档位。**生产环境推荐异步 webhook 模式**：提交后立即返回（HTTP 202），结果完成后服务端回调你的接口。
 
 #### 调用流程
 
@@ -1193,12 +1213,12 @@ def request_with_retry(url, data, max_retries=5, delay=3):
 
 ### 10.4 超时设置
 
-弹性服务的容器网关有 **100 秒超时限制**，而视频生成需要 2-10 分钟。
+网关同步连接实测 **193 秒内可用**（720p/10s 档实测通过），1080p 长任务最高可达 25 分钟。
 
 | 模式 | 超时行为 | 建议 |
 |------|---------|------|
 | 异步 webhook 模式 | 提交只需几秒，不受影响 | **生产必选** |
-| 同步模式 | 连接会被网关在 100 秒后切断 | 仅用于测试 |
+| 同步模式 | 长任务可能被网关切断 | 用于 ≤720p/10s 或测试；更长任务走异步 |
 
 > **同步模式超时是必然的**——不是因为生成慢，而是网关限制。生产环境请用异步 webhook_v2 模式（见 7.4 节）。
 
