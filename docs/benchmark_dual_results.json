@@ -1,0 +1,578 @@
+{
+  "480p_5s-1": {
+    "res": "480p",
+    "dur": "5s-1",
+    "name": "机械臂抓取",
+    "aspect": "16:9",
+    "width": 864,
+    "height": 480,
+    "frames": 124,
+    "seconds": 5,
+    "seed": 20260819,
+    "gpu": "2x RTX 5090 (单卡执行)",
+    "lora": "minimax_h3_fl2v_turbo_4step_v1.0_768p_comfyui_bf16",
+    "steps": 4,
+    "sampler": "euler",
+    "shift": [
+      12.0,
+      3.0
+    ],
+    "unet": "minimax_h3_fl2va_pruned_int8_convrot",
+    "prompt_id": "3ab8997f-05cc-41f3-90b2-7747309e04d7",
+    "ok": true,
+    "t_submit": "10:59:21",
+    "t_done": "11:00:49",
+    "wall_s": 88.4,
+    "files": [
+      {
+        "local": "outputs\\dual_480p_5s-1_MiniMax_H3_turbo_00001_.mp4",
+        "size_mb": 0.53,
+        "remote": "MiniMax_H3_turbo_00001_.mp4"
+      }
+    ]
+  },
+  "480p_5s-2": {
+    "res": "480p",
+    "dur": "5s-2",
+    "name": "动态海报",
+    "aspect": "16:9",
+    "width": 864,
+    "height": 480,
+    "frames": 124,
+    "seconds": 5,
+    "seed": 20260819,
+    "gpu": "2x RTX 5090 (单卡执行)",
+    "lora": "minimax_h3_fl2v_turbo_4step_v1.0_768p_comfyui_bf16",
+    "steps": 4,
+    "sampler": "euler",
+    "shift": [
+      12.0,
+      3.0
+    ],
+    "unet": "minimax_h3_fl2va_pruned_int8_convrot",
+    "prompt_id": "10428d75-4a99-4f90-b73c-5c5262fdc214",
+    "ok": true,
+    "t_submit": "11:00:52",
+    "t_done": "11:01:30",
+    "wall_s": 38.1,
+    "files": [
+      {
+        "local": "outputs\\dual_480p_5s-2_MiniMax_H3_turbo_00002_.mp4",
+        "size_mb": 0.59,
+        "remote": "MiniMax_H3_turbo_00002_.mp4"
+      }
+    ]
+  },
+  "480p_10s-1": {
+    "res": "480p",
+    "dur": "10s-1",
+    "name": "2D手绘反应游戏",
+    "aspect": "4:3",
+    "width": 640,
+    "height": 480,
+    "frames": 243,
+    "seconds": 10,
+    "seed": 20260819,
+    "gpu": "2x RTX 5090 (单卡执行)",
+    "lora": "minimax_h3_fl2v_turbo_4step_v1.0_768p_comfyui_bf16",
+    "steps": 4,
+    "sampler": "euler",
+    "shift": [
+      12.0,
+      3.0
+    ],
+    "unet": "minimax_h3_fl2va_pruned_int8_convrot",
+    "prompt_id": "e52c15ed-095d-4ca3-9853-7411eb5be6f6",
+    "ok": true,
+    "t_submit": "11:01:33",
+    "t_done": "11:02:33",
+    "wall_s": 59.6,
+    "files": [
+      {
+        "local": "outputs\\dual_480p_10s-1_MiniMax_H3_turbo_00003_.mp4",
+        "size_mb": 1.26,
+        "remote": "MiniMax_H3_turbo_00003_.mp4"
+      }
+    ]
+  },
+  "480p_10s-2": {
+    "res": "480p",
+    "dur": "10s-2",
+    "name": "海边小集市手绘融合",
+    "aspect": "16:9",
+    "width": 864,
+    "height": 480,
+    "frames": 243,
+    "seconds": 10,
+    "seed": 20260819,
+    "gpu": "2x RTX 5090 (单卡执行)",
+    "lora": "minimax_h3_fl2v_turbo_4step_v1.0_768p_comfyui_bf16",
+    "steps": 4,
+    "sampler": "euler",
+    "shift": [
+      12.0,
+      3.0
+    ],
+    "unet": "minimax_h3_fl2va_pruned_int8_convrot",
+    "prompt_id": "7388915b-b3de-4bbc-896b-53ab0d59eaa2",
+    "ok": true,
+    "t_submit": "11:02:36",
+    "t_done": "11:03:47",
+    "wall_s": 70.7,
+    "files": [
+      {
+        "local": "outputs\\dual_480p_10s-2_MiniMax_H3_turbo_00004_.mp4",
+        "size_mb": 3.5,
+        "remote": "MiniMax_H3_turbo_00004_.mp4"
+      }
+    ]
+  },
+  "480p_15s-1": {
+    "res": "480p",
+    "dur": "15s-1",
+    "name": "科幻悬疑电影短预告",
+    "aspect": "16:9",
+    "width": 864,
+    "height": 480,
+    "frames": 362,
+    "seconds": 15,
+    "seed": 20260819,
+    "gpu": "2x RTX 5090 (单卡执行)",
+    "lora": "minimax_h3_fl2v_turbo_4step_v1.0_768p_comfyui_bf16",
+    "steps": 4,
+    "sampler": "euler",
+    "shift": [
+      12.0,
+      3.0
+    ],
+    "unet": "minimax_h3_fl2va_pruned_int8_convrot",
+    "prompt_id": "5283e29b-1c44-427a-b497-3a63188d1f57",
+    "ok": true,
+    "t_submit": "11:03:50",
+    "t_done": "11:05:44",
+    "wall_s": 114.6,
+    "files": [
+      {
+        "local": "outputs\\dual_480p_15s-1_MiniMax_H3_turbo_00005_.mp4",
+        "size_mb": 1.94,
+        "remote": "MiniMax_H3_turbo_00005_.mp4"
+      }
+    ]
+  },
+  "480p_15s-2": {
+    "res": "480p",
+    "dur": "15s-2",
+    "name": "轻悬疑犯罪电影片头",
+    "aspect": "16:9",
+    "width": 864,
+    "height": 480,
+    "frames": 362,
+    "seconds": 15,
+    "seed": 20260819,
+    "gpu": "2x RTX 5090 (单卡执行)",
+    "lora": "minimax_h3_fl2v_turbo_4step_v1.0_768p_comfyui_bf16",
+    "steps": 4,
+    "sampler": "euler",
+    "shift": [
+      12.0,
+      3.0
+    ],
+    "unet": "minimax_h3_fl2va_pruned_int8_convrot",
+    "prompt_id": "150c62ad-78b5-4575-9930-38932d0be754",
+    "ok": true,
+    "t_submit": "11:05:47",
+    "t_done": "11:07:47",
+    "wall_s": 119.9,
+    "files": [
+      {
+        "local": "outputs\\dual_480p_15s-2_MiniMax_H3_turbo_00006_.mp4",
+        "size_mb": 2.56,
+        "remote": "MiniMax_H3_turbo_00006_.mp4"
+      }
+    ]
+  },
+  "720p_5s-1": {
+    "res": "720p",
+    "dur": "5s-1",
+    "name": "机械臂抓取",
+    "aspect": "16:9",
+    "width": 1280,
+    "height": 720,
+    "frames": 124,
+    "seconds": 5,
+    "seed": 20260819,
+    "gpu": "2x RTX 5090 (单卡执行)",
+    "lora": "minimax_h3_fl2v_turbo_4step_v1.0_768p_comfyui_bf16",
+    "steps": 4,
+    "sampler": "euler",
+    "shift": [
+      12.0,
+      3.0
+    ],
+    "unet": "minimax_h3_fl2va_pruned_int8_convrot",
+    "prompt_id": "c7155217-f3d0-444a-9719-c7e2d53558e7",
+    "ok": true,
+    "t_submit": "11:07:50",
+    "t_done": "11:09:06",
+    "wall_s": 75.4,
+    "files": [
+      {
+        "local": "outputs\\dual_720p_5s-1_MiniMax_H3_turbo_00007_.mp4",
+        "size_mb": 0.94,
+        "remote": "MiniMax_H3_turbo_00007_.mp4"
+      }
+    ]
+  },
+  "720p_5s-2": {
+    "res": "720p",
+    "dur": "5s-2",
+    "name": "动态海报",
+    "aspect": "16:9",
+    "width": 1280,
+    "height": 720,
+    "frames": 124,
+    "seconds": 5,
+    "seed": 20260819,
+    "gpu": "2x RTX 5090 (单卡执行)",
+    "lora": "minimax_h3_fl2v_turbo_4step_v1.0_768p_comfyui_bf16",
+    "steps": 4,
+    "sampler": "euler",
+    "shift": [
+      12.0,
+      3.0
+    ],
+    "unet": "minimax_h3_fl2va_pruned_int8_convrot",
+    "prompt_id": "abd1467d-6385-4d2c-9471-d5de31b6213e",
+    "ok": true,
+    "t_submit": "11:09:59",
+    "t_done": "11:16:33",
+    "wall_s": 394.0,
+    "files": [
+      {
+        "local": "outputs\\dual_720p_5s-2_MiniMax_H3_turbo_00009_.mp4",
+        "size_mb": 0.78,
+        "remote": "MiniMax_H3_turbo_00009_.mp4"
+      }
+    ]
+  },
+  "720p_10s-1": {
+    "res": "720p",
+    "dur": "10s-1",
+    "name": "2D手绘反应游戏",
+    "aspect": "4:3",
+    "width": 960,
+    "height": 720,
+    "frames": 243,
+    "seconds": 10,
+    "seed": 20260819,
+    "gpu": "2x RTX 5090 (单卡执行)",
+    "lora": "minimax_h3_fl2v_turbo_4step_v1.0_768p_comfyui_bf16",
+    "steps": 4,
+    "sampler": "euler",
+    "shift": [
+      12.0,
+      3.0
+    ],
+    "unet": "minimax_h3_fl2va_pruned_int8_convrot",
+    "prompt_id": "b9fb7af0-17cf-406a-a328-4af5bea57156",
+    "ok": true,
+    "t_submit": "11:16:36",
+    "t_done": "11:18:48",
+    "wall_s": 131.9,
+    "files": [
+      {
+        "local": "outputs\\dual_720p_10s-1_MiniMax_H3_turbo_00010_.mp4",
+        "size_mb": 1.53,
+        "remote": "MiniMax_H3_turbo_00010_.mp4"
+      }
+    ]
+  },
+  "720p_10s-2": {
+    "res": "720p",
+    "dur": "10s-2",
+    "name": "海边小集市手绘融合",
+    "aspect": "16:9",
+    "width": 1280,
+    "height": 720,
+    "frames": 243,
+    "seconds": 10,
+    "seed": 20260819,
+    "gpu": "2x RTX 5090 (单卡执行)",
+    "lora": "minimax_h3_fl2v_turbo_4step_v1.0_768p_comfyui_bf16",
+    "steps": 4,
+    "sampler": "euler",
+    "shift": [
+      12.0,
+      3.0
+    ],
+    "unet": "minimax_h3_fl2va_pruned_int8_convrot",
+    "prompt_id": "cfe651ab-5d00-4ee7-b80f-52b933ac179c",
+    "ok": true,
+    "t_submit": "11:18:51",
+    "t_done": "11:22:14",
+    "wall_s": 203.0,
+    "files": [
+      {
+        "local": "outputs\\dual_720p_10s-2_MiniMax_H3_turbo_00011_.mp4",
+        "size_mb": 3.15,
+        "remote": "MiniMax_H3_turbo_00011_.mp4"
+      }
+    ]
+  },
+  "720p_15s-1": {
+    "res": "720p",
+    "dur": "15s-1",
+    "name": "科幻悬疑电影短预告",
+    "aspect": "16:9",
+    "width": 1280,
+    "height": 720,
+    "frames": 362,
+    "seconds": 15,
+    "seed": 20260819,
+    "gpu": "2x RTX 5090 (单卡执行)",
+    "lora": "minimax_h3_fl2v_turbo_4step_v1.0_768p_comfyui_bf16",
+    "steps": 4,
+    "sampler": "euler",
+    "shift": [
+      12.0,
+      3.0
+    ],
+    "unet": "minimax_h3_fl2va_pruned_int8_convrot",
+    "prompt_id": "3a53bdd6-1da6-4856-afbb-417558e536f3",
+    "ok": true,
+    "t_submit": "11:22:17",
+    "t_done": "11:22:18",
+    "wall_s": 1.3,
+    "files": [
+      {
+        "local": "outputs\\dual_720p_15s-1_MiniMax_H3_turbo_00008_.mp4",
+        "size_mb": 2.91,
+        "remote": "MiniMax_H3_turbo_00008_.mp4"
+      }
+    ]
+  },
+  "720p_15s-2": {
+    "res": "720p",
+    "dur": "15s-2",
+    "name": "轻悬疑犯罪电影片头",
+    "aspect": "16:9",
+    "width": 1280,
+    "height": 720,
+    "frames": 362,
+    "seconds": 15,
+    "seed": 20260819,
+    "gpu": "2x RTX 5090 (单卡执行)",
+    "lora": "minimax_h3_fl2v_turbo_4step_v1.0_768p_comfyui_bf16",
+    "steps": 4,
+    "sampler": "euler",
+    "shift": [
+      12.0,
+      3.0
+    ],
+    "unet": "minimax_h3_fl2va_pruned_int8_convrot",
+    "prompt_id": "dd96a4bc-14b9-445a-bed1-e42496db149b",
+    "ok": true,
+    "t_submit": "11:22:21",
+    "t_done": "11:28:36",
+    "wall_s": 374.7,
+    "files": [
+      {
+        "local": "outputs\\dual_720p_15s-2_MiniMax_H3_turbo_00012_.mp4",
+        "size_mb": 6.11,
+        "remote": "MiniMax_H3_turbo_00012_.mp4"
+      }
+    ]
+  },
+  "1080p_5s-1": {
+    "res": "1080p",
+    "dur": "5s-1",
+    "name": "机械臂抓取",
+    "aspect": "16:9",
+    "width": 1920,
+    "height": 1080,
+    "frames": 124,
+    "seconds": 5,
+    "seed": 20260819,
+    "gpu": "2x RTX 5090 (单卡执行)",
+    "lora": "minimax_h3_fl2v_turbo_4step_v1.0_768p_comfyui_bf16",
+    "steps": 4,
+    "sampler": "euler",
+    "shift": [
+      12.0,
+      3.0
+    ],
+    "unet": "minimax_h3_fl2va_pruned_int8_convrot",
+    "prompt_id": "8ea6c47b-16b8-4c1b-85c9-c6de014ae031",
+    "ok": true,
+    "t_submit": "11:28:39",
+    "t_done": "11:32:26",
+    "wall_s": 227.4,
+    "files": [
+      {
+        "local": "outputs\\dual_1080p_5s-1_MiniMax_H3_turbo_00013_.mp4",
+        "size_mb": 2.13,
+        "remote": "MiniMax_H3_turbo_00013_.mp4"
+      }
+    ]
+  },
+  "1080p_5s-2": {
+    "res": "1080p",
+    "dur": "5s-2",
+    "name": "动态海报",
+    "aspect": "16:9",
+    "width": 1920,
+    "height": 1080,
+    "frames": 124,
+    "seconds": 5,
+    "seed": 20260819,
+    "gpu": "2x RTX 5090 (单卡执行)",
+    "lora": "minimax_h3_fl2v_turbo_4step_v1.0_768p_comfyui_bf16",
+    "steps": 4,
+    "sampler": "euler",
+    "shift": [
+      12.0,
+      3.0
+    ],
+    "unet": "minimax_h3_fl2va_pruned_int8_convrot",
+    "prompt_id": "0ddb2516-09be-478c-b585-dc166c3b0879",
+    "ok": true,
+    "t_submit": "11:32:29",
+    "t_done": "11:36:18",
+    "wall_s": 228.4,
+    "files": [
+      {
+        "local": "outputs\\dual_1080p_5s-2_MiniMax_H3_turbo_00014_.mp4",
+        "size_mb": 1.57,
+        "remote": "MiniMax_H3_turbo_00014_.mp4"
+      }
+    ]
+  },
+  "1080p_10s-1": {
+    "res": "1080p",
+    "dur": "10s-1",
+    "name": "2D手绘反应游戏",
+    "aspect": "4:3",
+    "width": 1440,
+    "height": 1080,
+    "frames": 243,
+    "seconds": 10,
+    "seed": 20260819,
+    "gpu": "2x RTX 5090 (单卡执行)",
+    "lora": "minimax_h3_fl2v_turbo_4step_v1.0_768p_comfyui_bf16",
+    "steps": 4,
+    "sampler": "euler",
+    "shift": [
+      12.0,
+      3.0
+    ],
+    "unet": "minimax_h3_fl2va_pruned_int8_convrot",
+    "prompt_id": "8ceb0145-8b1b-470f-a93c-f21d546e876e",
+    "ok": true,
+    "t_submit": "11:36:21",
+    "t_done": "11:43:39",
+    "wall_s": 438.0,
+    "files": [
+      {
+        "local": "outputs\\dual_1080p_10s-1_MiniMax_H3_turbo_00015_.mp4",
+        "size_mb": 3.18,
+        "remote": "MiniMax_H3_turbo_00015_.mp4"
+      }
+    ]
+  },
+  "1080p_10s-2": {
+    "res": "1080p",
+    "dur": "10s-2",
+    "name": "海边小集市手绘融合",
+    "aspect": "16:9",
+    "width": 1920,
+    "height": 1080,
+    "frames": 243,
+    "seconds": 10,
+    "seed": 20260819,
+    "gpu": "2x RTX 5090 (单卡执行)",
+    "lora": "minimax_h3_fl2v_turbo_4step_v1.0_768p_comfyui_bf16",
+    "steps": 4,
+    "sampler": "euler",
+    "shift": [
+      12.0,
+      3.0
+    ],
+    "unet": "minimax_h3_fl2va_pruned_int8_convrot",
+    "prompt_id": "ae90e138-9678-4876-a375-7c0135c3d5f0",
+    "ok": true,
+    "t_submit": "11:43:42",
+    "t_done": "11:55:52",
+    "wall_s": 730.8,
+    "files": [
+      {
+        "local": "outputs\\dual_1080p_10s-2_MiniMax_H3_turbo_00016_.mp4",
+        "size_mb": 7.42,
+        "remote": "MiniMax_H3_turbo_00016_.mp4"
+      }
+    ]
+  },
+  "1080p_15s-1": {
+    "res": "1080p",
+    "dur": "15s-1",
+    "name": "科幻悬疑电影短预告",
+    "aspect": "16:9",
+    "width": 1920,
+    "height": 1080,
+    "frames": 362,
+    "seconds": 15,
+    "seed": 20260819,
+    "gpu": "2x RTX 5090 (单卡执行)",
+    "lora": "minimax_h3_fl2v_turbo_4step_v1.0_768p_comfyui_bf16",
+    "steps": 4,
+    "sampler": "euler",
+    "shift": [
+      12.0,
+      3.0
+    ],
+    "unet": "minimax_h3_fl2va_pruned_int8_convrot",
+    "prompt_id": "86f0bed4-7fc9-43e4-876d-f5aabba6298a",
+    "ok": true,
+    "t_submit": "11:55:56",
+    "t_done": "12:20:28",
+    "wall_s": 1472.4,
+    "files": [
+      {
+        "local": "outputs\\dual_1080p_15s-1_MiniMax_H3_turbo_00017_.mp4",
+        "size_mb": 6.18,
+        "remote": "MiniMax_H3_turbo_00017_.mp4"
+      }
+    ]
+  },
+  "1080p_15s-2": {
+    "res": "1080p",
+    "dur": "15s-2",
+    "name": "轻悬疑犯罪电影片头",
+    "aspect": "16:9",
+    "width": 1920,
+    "height": 1080,
+    "frames": 362,
+    "seconds": 15,
+    "seed": 20260819,
+    "gpu": "2x RTX 5090 (单卡执行)",
+    "lora": "minimax_h3_fl2v_turbo_4step_v1.0_768p_comfyui_bf16",
+    "steps": 4,
+    "sampler": "euler",
+    "shift": [
+      12.0,
+      3.0
+    ],
+    "unet": "minimax_h3_fl2va_pruned_int8_convrot",
+    "prompt_id": "3d2225fd-059a-49c7-9565-8bee5f440fce",
+    "ok": true,
+    "t_submit": "12:20:31",
+    "t_done": "12:45:02",
+    "wall_s": 1471.5,
+    "files": [
+      {
+        "local": "outputs\\dual_1080p_15s-2_MiniMax_H3_turbo_00018_.mp4",
+        "size_mb": 11.91,
+        "remote": "MiniMax_H3_turbo_00018_.mp4"
+      }
+    ]
+  }
+}

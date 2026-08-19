@@ -1,0 +1,16 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# 编辑器
+.vscode/
+.idea/
+
+# OS
+Thumbs.db
+.DS_Store
+
+# 运行时产物（复现基准时生成）
+output/
+benchmark_dual_results.local.json

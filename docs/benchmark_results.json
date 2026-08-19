@@ -1,0 +1,272 @@
+{
+  "480p_5s": {
+    "res": "480p",
+    "dur": "5s",
+    "width": 864,
+    "height": 480,
+    "aspect": "16:9",
+    "frames": 124,
+    "seconds": 5,
+    "seed": 20260818,
+    "lora": "minimax_h3_fl2v_turbo_4step_v1.0_768p_comfyui_bf16",
+    "steps": 4,
+    "sampler": "euler",
+    "shift": [
+      12.0,
+      3.0
+    ],
+    "unet": "minimax_h3_fl2va_pruned_int8_convrot",
+    "prompt_id": "26640a89-4eca-45c5-a8a7-be97a0de2159",
+    "ok": true,
+    "t_submit": "18:46:11",
+    "t_done": "18:46:13",
+    "wall_s": 1.2,
+    "files": [
+      {
+        "local": "outputs\\bench_480p_5s_MiniMax_H3_turbo_00002_.mp4",
+        "size_mb": 0.65,
+        "remote": "MiniMax_H3_turbo_00002_.mp4"
+      }
+    ]
+  },
+  "480p_10s": {
+    "res": "480p",
+    "dur": "10s",
+    "width": 480,
+    "height": 864,
+    "aspect": "9:16",
+    "frames": 243,
+    "seconds": 10,
+    "seed": 20260818,
+    "lora": "minimax_h3_fl2v_turbo_4step_v1.0_768p_comfyui_bf16",
+    "steps": 4,
+    "sampler": "euler",
+    "shift": [
+      12.0,
+      3.0
+    ],
+    "unet": "minimax_h3_fl2va_pruned_int8_convrot",
+    "prompt_id": "fbc637ee-6d48-41dd-9cf6-46993b069b33",
+    "ok": true,
+    "t_submit": "18:46:16",
+    "t_done": "18:47:31",
+    "wall_s": 75.4,
+    "files": [
+      {
+        "local": "outputs\\bench_480p_10s_MiniMax_H3_turbo_00003_.mp4",
+        "size_mb": 1.12,
+        "remote": "MiniMax_H3_turbo_00003_.mp4"
+      }
+    ]
+  },
+  "480p_15s": {
+    "res": "480p",
+    "dur": "15s",
+    "width": 864,
+    "height": 480,
+    "aspect": "16:9",
+    "frames": 362,
+    "seconds": 15,
+    "seed": 20260818,
+    "lora": "minimax_h3_fl2v_turbo_4step_v1.0_768p_comfyui_bf16",
+    "steps": 4,
+    "sampler": "euler",
+    "shift": [
+      12.0,
+      3.0
+    ],
+    "unet": "minimax_h3_fl2va_pruned_int8_convrot",
+    "prompt_id": "ae69af52-cae7-4bc4-9ed2-03dc2d1660ac",
+    "ok": true,
+    "t_submit": "18:47:34",
+    "t_done": "18:49:39",
+    "wall_s": 125.2,
+    "files": [
+      {
+        "local": "outputs\\bench_480p_15s_MiniMax_H3_turbo_00004_.mp4",
+        "size_mb": 2.55,
+        "remote": "MiniMax_H3_turbo_00004_.mp4"
+      }
+    ]
+  },
+  "720p_5s": {
+    "res": "720p",
+    "dur": "5s",
+    "width": 1280,
+    "height": 720,
+    "aspect": "16:9",
+    "frames": 124,
+    "seconds": 5,
+    "seed": 20260818,
+    "lora": "minimax_h3_fl2v_turbo_4step_v1.0_768p_comfyui_bf16",
+    "steps": 4,
+    "sampler": "euler",
+    "shift": [
+      12.0,
+      3.0
+    ],
+    "unet": "minimax_h3_fl2va_pruned_int8_convrot",
+    "prompt_id": "e658aa1a-2d16-42f3-b5a8-1a2675975adc",
+    "ok": true,
+    "t_submit": "18:49:42",
+    "t_done": "18:50:58",
+    "wall_s": 75.7,
+    "files": [
+      {
+        "local": "outputs\\bench_720p_5s_MiniMax_H3_turbo_00005_.mp4",
+        "size_mb": 1.46,
+        "remote": "MiniMax_H3_turbo_00005_.mp4"
+      }
+    ]
+  },
+  "720p_10s": {
+    "res": "720p",
+    "dur": "10s",
+    "width": 720,
+    "height": 1280,
+    "aspect": "9:16",
+    "frames": 243,
+    "seconds": 10,
+    "seed": 20260818,
+    "lora": "minimax_h3_fl2v_turbo_4step_v1.0_768p_comfyui_bf16",
+    "steps": 4,
+    "sampler": "euler",
+    "shift": [
+      12.0,
+      3.0
+    ],
+    "unet": "minimax_h3_fl2va_pruned_int8_convrot",
+    "prompt_id": "56bba4a3-2272-46a6-b1ad-01852258ba4b",
+    "ok": true,
+    "t_submit": "18:51:01",
+    "t_done": "18:54:20",
+    "wall_s": 199.6,
+    "files": [
+      {
+        "local": "outputs\\bench_720p_10s_MiniMax_H3_turbo_00006_.mp4",
+        "size_mb": 2.86,
+        "remote": "MiniMax_H3_turbo_00006_.mp4"
+      }
+    ]
+  },
+  "720p_15s": {
+    "res": "720p",
+    "dur": "15s",
+    "width": 1280,
+    "height": 720,
+    "aspect": "16:9",
+    "frames": 362,
+    "seconds": 15,
+    "seed": 20260818,
+    "lora": "minimax_h3_fl2v_turbo_4step_v1.0_768p_comfyui_bf16",
+    "steps": 4,
+    "sampler": "euler",
+    "shift": [
+      12.0,
+      3.0
+    ],
+    "unet": "minimax_h3_fl2va_pruned_int8_convrot",
+    "prompt_id": "e9094f12-b52d-449d-8fb8-e99d3d0386f1",
+    "ok": true,
+    "t_submit": "18:54:23",
+    "t_done": "19:00:42",
+    "wall_s": 378.5,
+    "files": [
+      {
+        "local": "outputs\\bench_720p_15s_MiniMax_H3_turbo_00007_.mp4",
+        "size_mb": 5.52,
+        "remote": "MiniMax_H3_turbo_00007_.mp4"
+      }
+    ]
+  },
+  "1080p_5s": {
+    "res": "1080p",
+    "dur": "5s",
+    "width": 1920,
+    "height": 1080,
+    "aspect": "16:9",
+    "frames": 124,
+    "seconds": 5,
+    "seed": 20260818,
+    "lora": "minimax_h3_fl2v_turbo_4step_v1.0_768p_comfyui_bf16",
+    "steps": 4,
+    "sampler": "euler",
+    "shift": [
+      12.0,
+      3.0
+    ],
+    "unet": "minimax_h3_fl2va_pruned_int8_convrot",
+    "prompt_id": "f109373d-64e0-4ee8-a10e-849198fb4770",
+    "ok": true,
+    "t_submit": "19:00:45",
+    "t_done": "19:04:30",
+    "wall_s": 225.4,
+    "files": [
+      {
+        "local": "outputs\\bench_1080p_5s_MiniMax_H3_turbo_00008_.mp4",
+        "size_mb": 2.31,
+        "remote": "MiniMax_H3_turbo_00008_.mp4"
+      }
+    ]
+  },
+  "1080p_10s": {
+    "res": "1080p",
+    "dur": "10s",
+    "width": 1080,
+    "height": 1920,
+    "aspect": "9:16",
+    "frames": 243,
+    "seconds": 10,
+    "seed": 20260818,
+    "lora": "minimax_h3_fl2v_turbo_4step_v1.0_768p_comfyui_bf16",
+    "steps": 4,
+    "sampler": "euler",
+    "shift": [
+      12.0,
+      3.0
+    ],
+    "unet": "minimax_h3_fl2va_pruned_int8_convrot",
+    "prompt_id": "9994f49b-a8af-48b3-a255-06d38a0ea21d",
+    "ok": true,
+    "t_submit": "19:27:26",
+    "t_done": "19:40:09",
+    "wall_s": 763.7,
+    "files": [
+      {
+        "local": "outputs\\bench_1080p_10s_MiniMax_H3_turbo_00001_.mp4",
+        "size_mb": 5.94,
+        "remote": "MiniMax_H3_turbo_00001_.mp4"
+      }
+    ]
+  },
+  "1080p_15s": {
+    "res": "1080p",
+    "dur": "15s",
+    "width": 1920,
+    "height": 1080,
+    "aspect": "16:9",
+    "frames": 362,
+    "seconds": 15,
+    "seed": 20260818,
+    "lora": "minimax_h3_fl2v_turbo_4step_v1.0_768p_comfyui_bf16",
+    "steps": 4,
+    "sampler": "euler",
+    "shift": [
+      12.0,
+      3.0
+    ],
+    "unet": "minimax_h3_fl2va_pruned_int8_convrot",
+    "prompt_id": "c460c4db-0589-4571-9e75-195970e8893f",
+    "ok": true,
+    "t_submit": "19:40:12",
+    "t_done": "20:05:05",
+    "wall_s": 1492.5,
+    "files": [
+      {
+        "local": "outputs\\bench_1080p_15s_MiniMax_H3_turbo_00002_.mp4",
+        "size_mb": 11.73,
+        "remote": "MiniMax_H3_turbo_00002_.mp4"
+      }
+    ]
+  }
+}

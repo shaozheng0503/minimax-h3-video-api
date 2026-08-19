@@ -1,0 +1,182 @@
+{
+  "10": {
+    "class_type": "UNETLoader",
+    "inputs": {
+      "unet_name": "minimax_h3_fl2va_pruned_int8_convrot.safetensors",
+      "weight_dtype": "default"
+    }
+  },
+  "11": {
+    "class_type": "LoraLoaderModelOnly",
+    "inputs": {
+      "model": [
+        "10",
+        0
+      ],
+      "lora_name": "minimax_h3_fl2v_turbo_4step_v1.0_768p_comfyui_bf16.safetensors",
+      "strength_model": 1.0
+    }
+  },
+  "12": {
+    "class_type": "MiniMaxH3SigmaShift",
+    "inputs": {
+      "model": [
+        "11",
+        0
+      ],
+      "shift_video": 12.0,
+      "shift_audio": 3.0
+    }
+  },
+  "13": {
+    "class_type": "CLIPLoader",
+    "inputs": {
+      "clip_name": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+      "type": "minimax",
+      "device": "default"
+    }
+  },
+  "14": {
+    "class_type": "VAELoader",
+    "inputs": {
+      "vae_name": "minimax_h3_video_vae_fp16.safetensors"
+    }
+  },
+  "15": {
+    "class_type": "VAELoader",
+    "inputs": {
+      "vae_name": "minimax_h3_audio_vae_fp32.safetensors"
+    }
+  },
+  "16": {
+    "class_type": "MiniMaxH3ImageToVideo",
+    "inputs": {
+      "clip": [
+        "13",
+        0
+      ],
+      "vae": [
+        "14",
+        0
+      ],
+      "prompt": "Realistic live-action cinematic look, action movie trailer: practical film photography style, a post-rain dusk metropolis, anamorphic lens, shallow depth of field, film grain, city volumetric fog, flying-car traffic between neon towers, a lone figure in a long coat walks forward on a rain-slick rooftop, gazing over the city. Steadicam follow shot, slow dolly-in, cinematic color grading, HDR.\n\nTimeline:/n[0s-3s] Establishing city skyline at dusk, flying cars passing, rain drizzling.\n[3s-6s] The figure walks along the rooftop edge, coat flapping in wind, city lights bokeh.\n[6s-9s] Slow push-in to the figure's silhouette against neon skyline, fade-ready ending.\n\nAudio: cinematic ambient score, low drone, distant thunder, soft rain layer, subtle heartbeat pulse rising at 6s.\n\nAll text must be clearly legible if any, no subtitles bars.",
+      "width": 1344,
+      "height": 768,
+      "length": 226
+    }
+  },
+  "20": {
+    "class_type": "RandomNoise",
+    "inputs": {
+      "noise_seed": 1098798841189318
+    }
+  },
+  "21": {
+    "class_type": "BasicGuider",
+    "inputs": {
+      "model": [
+        "12",
+        0
+      ],
+      "conditioning": [
+        "16",
+        0
+      ]
+    }
+  },
+  "22": {
+    "class_type": "KSamplerSelect",
+    "inputs": {
+      "sampler_name": "euler"
+    }
+  },
+  "23": {
+    "class_type": "BasicScheduler",
+    "inputs": {
+      "model": [
+        "12",
+        0
+      ],
+      "scheduler": "simple",
+      "steps": 4,
+      "denoise": 1.0
+    }
+  },
+  "24": {
+    "class_type": "SamplerCustomAdvanced",
+    "inputs": {
+      "noise": [
+        "20",
+        0
+      ],
+      "guider": [
+        "21",
+        0
+      ],
+      "sampler": [
+        "22",
+        0
+      ],
+      "sigmas": [
+        "23",
+        0
+      ],
+      "latent_image": [
+        "16",
+        1
+      ]
+    }
+  },
+  "30": {
+    "class_type": "VAEDecode",
+    "inputs": {
+      "samples": [
+        "24",
+        0
+      ],
+      "vae": [
+        "14",
+        0
+      ]
+    }
+  },
+  "31": {
+    "class_type": "VAEDecodeAudio",
+    "inputs": {
+      "samples": [
+        "24",
+        0
+      ],
+      "vae": [
+        "15",
+        0
+      ]
+    }
+  },
+  "32": {
+    "class_type": "CreateVideo",
+    "inputs": {
+      "images": [
+        "30",
+        0
+      ],
+      "audio": [
+        "31",
+        0
+      ],
+      "fps": 24.0
+    }
+  },
+  "33": {
+    "class_type": "SaveVideo",
+    "inputs": {
+      "video": [
+        "32",
+        0
+      ],
+      "filename_prefix": "MiniMax_H3_turbo",
+      "format": "auto",
+      "codec": "auto"
+    }
+  }
+}
