@@ -29,6 +29,19 @@ files = generate_video(
 )
 ```
 
+### 2b. 语义化参数：画质 / 比例 / 时长
+```python
+files = generate_video(
+    "A ginger cat stretches lazily on a windowsill",
+    base_url="https://<你的服务地址>:3000",
+    resolution="1080p",   # 480p / 720p / 1080p / 768p
+    aspect="9:16",        # 16:9 / 9:16 / 4:3 / 1:1
+    duration=10,          # 秒，自动对齐 17k+5 帧数网格
+    quality="turbo",      # turbo（默认）/ standard
+)
+# 等价于 width=1088, height=1920, length=243，无需记 32 倍数和帧数网格
+```
+
 ### 3. 高画质档（standard）
 ```python
 files = generate_video(
@@ -57,6 +70,7 @@ print("任务已提交:", result["id"])
 ## 核心特性
 
 - **双档质量**：turbo（4 步加速 LoRA，默认，约快 5 倍）/ standard（20 步原版）
+- **语义化参数**：`resolution`（480p/720p/1080p/768p）+ `aspect`（16:9/9:16/4:3/1:1）+ `duration`（秒），自动换算宽高与 17k+5 帧数网格
 - **文生视频（T2V）**：文本生成含音频的 MP4 视频（720p / 5秒 / 24fps）
 - **图生视频（I2V）**：首帧 / 尾帧引导视频生成
 - **参考图生视频（Ref2V）**：多参考图 / 视频 / 音频引导

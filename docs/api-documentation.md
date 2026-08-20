@@ -52,6 +52,35 @@ curl -s "https://<你的服务地址>:3000/ready"
 > - **standard**：20 步原版无加速，画质上限略高，720p/5s 约 5-7 分钟
 > - 使用随附 SDK 时传 `quality="turbo"` / `quality="standard"` 即可切换，LoRA 挂载与参数由 SDK 自动处理
 
+### SDK 便捷参数（画质 / 比例 / 时长）
+
+随附 SDK 在原始 `width/height/length` 之上提供了三个语义化参数，客户无需记 32 倍数和 17k+5 网格：
+
+```python
+from comfyui_minimax_h3_sdk import generate_video
+
+# 1080p 竖屏 10 秒（SDK 自动换算成 width=1088, height=1920, length=243）
+files = generate_video(
+    "A cat playing piano",
+    base_url="https://<你的服务地址>:3000",
+    resolution="1080p",   # 480p / 720p / 1080p / 768p
+    aspect="9:16",        # 16:9 / 9:16 / 4:3 / 1:1
+    duration=10,          # 秒，自动对齐 17k+5 帧数网格
+    quality="turbo",      # 画质档：turbo（默认）/ standard
+)
+```
+
+分辨率预设表（宽高均为 32 倍数，直接可用）：
+
+| 档位 | 16:9 | 9:16 | 4:3 | 1:1 |
+|------|------|------|-----|-----|
+| 480p | 864×480 | 480×864 | 640×480 | 480×480 |
+| 720p | 1280×736 | 736×1280 | 960×736 | 736×736 |
+| 1080p | 1920×1088 | 1088×1920 | 1440×1088 | 1088×1088 |
+| 768p | 1344×768 | 768×1344 | 1024×768 | 768×768 |
+
+> 768p 为模型原始默认档（turbo LoRA 标定分辨率）。`resolution` 与 `aspect` 可单独传（另一项取默认 720p / 16:9）；不传则用显式 `width/height`。秒→帧数换算函数 `frames_from_seconds()` 也已导出，供客户自查：5s=124、10s=243、15s=362 帧。
+
 ### turbo 加速 LoRA（服务端已部署）
 
 | LoRA 文件 | 适用模型 | 标定分辨率 |
@@ -707,7 +736,7 @@ ConditioningZeroOut ─→ (negative)
 
 ### 视频尺寸
 
-宽高必须为 **32 的倍数**（模型约束）。
+宽高必须为 **32 的倍数**（模型约束）。使用随附 SDK 时可直接传 `resolution`（档位）+ `aspect`（比例）预设，无需手算。
 
 #### 推荐分辨率
 
@@ -718,9 +747,18 @@ ConditioningZeroOut ─→ (negative)
 | 1080p | 1920 × 1088 | 2.09M | 高画质，耗时较长 |
 | 原始默认 | 1344 × 768 | 1.03M | 模型默认分辨率 |
 
+#### SDK 分辨率预设矩阵（resolution × aspect）
+
+| 档位 | 16:9 | 9:16 | 4:3 | 1:1 |
+|------|------|------|-----|-----|
+| 480p | 864×480 | 480×864 | 640×480 | 480×480 |
+| 720p | 1280×736 | 736×1280 | 960×736 | 736×736 |
+| 1080p | 1920×1088 | 1088×1920 | 1440×1088 | 1088×1088 |
+| 768p | 1344×768 | 768×1344 | 1024×768 | 768×768 |
+
 ### 帧数与时长
 
-帧数按 `17k+5` 网格对齐（模型内部约束），24 fps。
+帧数按 `17k+5` 网格对齐（模型内部约束），24 fps。SDK 传 `duration`（秒）时自动换算（内置 `frames_from_seconds()`）。
 
 | length（帧数） | 时长 | 说明 |
 |---------------|------|------|
@@ -1350,6 +1388,15 @@ files = generate_video(
     save_dir="./output",
 )
 
+# 语义化参数版（推荐）：画质 / 比例 / 时长一目了然
+files = generate_video(
+    "A cat playing piano in a jazz club",
+    base_url="https://<你的服务地址>:3000",
+    resolution="720p",   # 480p / 720p / 1080p / 768p
+    aspect="16:9",       # 16:9 / 9:16 / 4:3 / 1:1
+    duration=5,          # 秒，自动对齐 17k+5 帧数网格
+)
+
 # 高画质档（20 步原版，约 5-7 分钟）
 files = generate_video(
     "A cat playing piano in a jazz club",
@@ -1376,6 +1423,15 @@ workflow = build_t2v_workflow(
     length=124,
     quality="turbo",      # turbo: 4步+LoRA加速 / standard: 20步原版
     # steps=4, cfg=1.0,   # 可显式覆盖，默认按 quality 档自动
+    seed=42,
+)
+
+# 或用语义化参数（与上面等价）
+workflow = build_t2v_workflow(
+    prompt_text="A cat playing piano in a jazz club",
+    resolution="720p",    # 自动展开为 width=1280, height=736
+    duration=5,           # 自动展开为 length=124（17k+5 对齐）
+    quality="turbo",
     seed=42,
 )
 

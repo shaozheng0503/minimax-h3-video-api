@@ -21,13 +21,20 @@ MiniMax H3 ComfyUI API SDK
     from comfyui_minimax_h3_sdk import generate_video
     files = generate_video("A cat playing piano", base_url="https://your-service:3000")
 
+使用示例 — 指定画质 / 比例 / 时长（推荐）:
+    files = generate_video("A cat playing piano", base_url="...",
+                           resolution="1080p",   # 480p/720p/1080p/768p
+                           aspect="9:16",        # 16:9/9:16/4:3/1:1
+                           duration=10)          # 秒，自动换算 17k+5 帧数网格
+    # 等价于手动传 width=1088, height=1920, length=243
+
 使用示例 — standard 高画质档:
     files = generate_video("A cat playing piano", base_url="...", quality="standard")
 
 使用示例 — 异步模式（生产推荐）:
     from comfyui_minimax_h3_sdk import ComfyUI, build_t2v_workflow
     client = ComfyUI("https://your-service:3000")
-    workflow = build_t2v_workflow(prompt_text="A cat playing piano")
+    workflow = build_t2v_workflow("A cat playing piano", resolution="720p", duration=5)
     result = client.async_submit(workflow, webhook_url="https://your-server.com/callback")
     print("任务已提交:", result["id"])
     # ...完成后服务端回调 webhook_v2，格式:
@@ -576,6 +583,95 @@ TURBO_LORA_FL2V = "minimax_h3_fl2v_turbo_4step_v1.0_768p_comfyui_bf16.safetensor
 TURBO_LORA_REF2V = "minimax_h3_ref2v_turbo_4step_v0.1_comfyui_bf16.safetensors"
 
 # 两档工作流的质量/速度参数
+# ============================================================
+# 分辨率预设（宽高均为 32 的倍数，满足 H3 模型约束）
+# ============================================================
+RESOLUTIONS = {
+    # 档位: { 比例: (宽, 高) }
+    "480p": {
+        "16:9": (864, 480),
+        "9:16": (480, 864),
+        "4:3":  (640, 480),
+        "1:1":  (480, 480),
+    },
+    "720p": {
+        "16:9": (1280, 736),
+        "9:16": (736, 1280),
+        "4:3":  (960, 736),
+        "1:1":  (736, 736),
+    },
+    "1080p": {
+        "16:9": (1920, 1088),
+        "9:16": (1088, 1920),
+        "4:3":  (1440, 1088),
+        "1:1":  (1088, 1088),
+    },
+    # 模型原始默认档（turbo LoRA 标定分辨率）
+    "768p": {
+        "16:9": (1344, 768),
+        "9:16": (768, 1344),
+        "4:3":  (1024, 768),
+        "1:1":  (768, 768),
+    },
+}
+
+
+def frames_from_seconds(seconds):
+    """
+    秒 → 合法帧数（H3 的 17k+5 网格对齐，24fps）
+
+    H3 内部按 17 帧一个 block 处理 latent，输出帧数必须落在 17k+5 网格上，
+    否则时长会被截断/补齐。本函数向上对齐到最近网格点（与 ComfyUI 官方
+    工作流里 Math Expression 节点的行为一致）。
+
+    常用值:
+        5s → 124 帧（5.2s）   10s → 243 帧（10.1s）
+        15s → 362 帧（15.1s）  上限 362（模型训练范围）
+    """
+    if seconds <= 0:
+        raise ValueError("seconds 必须为正数，收到: %r" % (seconds,))
+    base = max(5, round(seconds * 24))
+    return base + (5 - (base % 17)) % 17
+
+
+def _resolve_size(resolution, aspect, width, height):
+    """
+    解析最终宽高：优先 resolution+aspect 预设，其次显式 width/height。
+    返回 (width, height)，并校验 32 倍数对齐。
+    """
+    if resolution is not None or aspect is not None:
+        res_key = resolution or "720p"
+        aspect_key = aspect or "16:9"
+        if res_key not in RESOLUTIONS:
+            raise ValueError(
+                "resolution 必须是 %s 之一，收到: %r"
+                % (sorted(RESOLUTIONS), res_key)
+            )
+        if aspect_key not in RESOLUTIONS[res_key]:
+            raise ValueError(
+                "aspect 必须是 %s 之一，收到: %r"
+                % (sorted(RESOLUTIONS[res_key]), aspect_key)
+            )
+        w, h = RESOLUTIONS[res_key][aspect_key]
+    else:
+        w, h = width, height
+
+    if w % 32 != 0 or h % 32 != 0:
+        raise ValueError(
+            "宽高必须是 32 的倍数（模型约束），收到: %dx%d。"
+            "建议用 resolution+aspect 预设，如 resolution='720p', aspect='16:9'"
+            % (w, h)
+        )
+    return w, h
+
+
+def _resolve_length(duration, length):
+    """duration（秒）优先；否则用显式 length（帧数）。"""
+    if duration is not None:
+        return frames_from_seconds(duration)
+    return length
+
+
 QUALITY_PRESETS = {
     "turbo": {
         # 4 步蒸馏 LoRA，速度约为 standard 的 5 倍
@@ -600,6 +696,9 @@ def build_t2v_workflow(
     width=1280,
     height=736,
     length=124,
+    duration=None,
+    resolution=None,
+    aspect=None,
     seed=None,
     quality="turbo",
     steps=None,
@@ -615,27 +714,43 @@ def build_t2v_workflow(
 
     参数:
         prompt_text:   提示词（推荐英文）
-        width:          视频宽度（必须为 32 的倍数，默认 1280 = 720p）
-        height:         视频高度（必须为 32 的倍数，默认 736 = 720p）
-        length:         帧数（24fps，124帧 ≈ 5秒，步进 17）
-        seed:           随机种子（None 则随机生成）
-        quality:        "turbo"（默认，4步加速 LoRA，约快 5 倍）
-                        或 "standard"（20步原版，画质上限略高）
-        steps:          采样步数（None 则按 quality 档自动：turbo=4 / standard=20）
-        cfg:            CFG 引导强度（None 则按 quality 档自动：turbo=1.0 / standard=7.0）
-        sampler_name:   采样器（默认 euler）
-        scheduler:      调度器（默认 simple）
-        shift_video:    视频 sigma shift（默认 12.0）
-        shift_audio:    音频 sigma shift（默认 3.0）
+        duration:      时长（秒）。传入则自动换算帧数（17k+5 网格对齐），
+                       覆盖 length 参数。5/10/15 秒常用
+        resolution:    分辨率档位 "480p" / "720p" / "1080p" / "768p"。
+                       传入则与 aspect 一起覆盖 width/height
+        aspect:        画面比例 "16:9" / "9:16" / "4:3" / "1:1"。
+                       需与 resolution 搭配使用（默认 16:9）
+        width:         视频宽度（32 的倍数，默认 1280 = 720p 16:9）
+        height:        视频高度（32 的倍数，默认 736 = 720p 16:9）
+        length:        帧数（24fps，124帧 ≈ 5秒，步进 17）。
+                       duration 未传时生效
+        seed:          随机种子（None 则随机生成）
+        quality:       "turbo"（默认，4步加速 LoRA，约快 5 倍）
+                       或 "standard"（20步原版，画质上限略高）
+        steps:         采样步数（None 则按 quality 档自动：turbo=4 / standard=20）
+        cfg:           CFG 引导强度（None 则按 quality 档自动：turbo=1.0 / standard=7.0）
+        sampler_name:  采样器（默认 euler）
+        scheduler:     调度器（默认 simple）
+        shift_video:   视频 sigma shift（默认 12.0）
+        shift_audio:   音频 sigma shift（默认 3.0）
         filename_prefix: 输出文件名前缀
 
     返回:
         工作流 JSON 对象
 
-    推荐分辨率:
-        720p:  width=1280, height=736
-        1080p: width=1920, height=1088
-        480p:  width=864,  height=480
+    用法示例:
+        # 720p 竖屏 10 秒（推荐，参数一目了然）
+        build_t2v_workflow("A cat", resolution="720p", aspect="9:16", duration=10)
+
+        # 传统方式：显式宽高+帧数
+        build_t2v_workflow("A cat", width=1088, height=1920, length=243)
+
+    预设速查 (resolution × aspect):
+        480p:  16:9=864x480   9:16=480x864   4:3=640x480   1:1=480x480
+        720p:  16:9=1280x736  9:16=736x1280  4:3=960x720   1:1=736x736
+        1080p: 16:9=1920x1088 9:16=1088x1920 4:3=1440x1088 1:1=1088x1088
+        768p:  16:9=1344x768  9:16=768x1344  4:3=1024x768  1:1=768x768
+              （768p = 模型原始默认档，turbo LoRA 标定分辨率）
     """
     if seed is None:
         seed = random.randint(0, 2**32 - 1)
@@ -647,6 +762,9 @@ def build_t2v_workflow(
         steps = preset["steps"]
     if cfg is None:
         cfg = preset["cfg"]
+
+    width, height = _resolve_size(resolution, aspect, width, height)
+    length = _resolve_length(duration, length)
 
     workflow = {
         # 模型加载
@@ -780,6 +898,9 @@ def build_i2v_workflow(
     width=1280,
     height=736,
     length=124,
+    duration=None,
+    resolution=None,
+    aspect=None,
     seed=None,
     quality="turbo",
     steps=None,
@@ -793,6 +914,7 @@ def build_i2v_workflow(
         prompt_text:  提示词
         first_frame:  首帧图片（本地路径或已上传的服务器文件名）
         last_frame:   尾帧图片（本地路径或已上传的服务器文件名）
+        duration/resolution/aspect: 同 build_t2v_workflow
         quality:      "turbo"（默认）/ "standard"，含义同 build_t2v_workflow
         其余参数同 build_t2v_workflow
     """
@@ -800,7 +922,9 @@ def build_i2v_workflow(
         seed = random.randint(0, 2**32 - 1)
 
     workflow = build_t2v_workflow(
-        prompt_text, width, height, length, seed,
+        prompt_text, width, height, length,
+        duration=duration, resolution=resolution, aspect=aspect,
+        seed=seed,
         quality=quality, steps=steps, cfg=cfg,
         filename_prefix=filename_prefix,
     )
@@ -830,6 +954,9 @@ def build_ref2v_workflow(
     width=1280,
     height=736,
     length=124,
+    duration=None,
+    resolution=None,
+    aspect=None,
     seed=None,
     quality="turbo",
     steps=None,
@@ -843,11 +970,15 @@ def build_ref2v_workflow(
     参数:
         prompt_text:    提示词，使用 <Picture 1> 引用参考图
         ref_images:     参考图片路径列表（最多9张）
+        duration/resolution/aspect: 同 build_t2v_workflow
         quality:        "turbo"（默认，挂 ref2v 专用 4 步 LoRA）/ "standard"
         ref_image_size: "match" 或 "max"
     """
     if seed is None:
         seed = random.randint(0, 2**32 - 1)
+
+    width, height = _resolve_size(resolution, aspect, width, height)
+    length = _resolve_length(duration, length)
 
     if quality == "turbo":
         if steps is None:
@@ -994,6 +1125,9 @@ def generate_video(
     width=1280,
     height=736,
     length=124,
+    duration=None,
+    resolution=None,
+    aspect=None,
     quality="turbo",
     steps=None,
     cfg=None,
@@ -1007,9 +1141,12 @@ def generate_video(
     参数:
         prompt_text: 提示词
         base_url:    ComfyUI 服务地址（含端口 3000），如 "https://your-service:3000"
+        duration:    时长（秒），传入则自动换算帧数。5/10/15 常用
+        resolution:  分辨率档位 "480p" / "720p" / "1080p" / "768p"（默认 720p）
+        aspect:      画面比例 "16:9" / "9:16" / "4:3" / "1:1"（默认 16:9）
         width:       视频宽度（32 的倍数，默认 1280 = 720p）
         height:      视频高度（32 的倍数，默认 736 = 720p）
-        length:      帧数（24fps，124帧≈5秒）
+        length:      帧数（24fps，124帧≈5秒），duration 未传时生效
         quality:     "turbo"（默认，4步加速，720p/5s 约 1-2 分钟）
                      或 "standard"（20步原版，约 5-7 分钟）
         steps:       采样步数（None 则按 quality 档自动）
@@ -1020,15 +1157,22 @@ def generate_video(
 
     示例:
         from comfyui_minimax_h3_sdk import generate_video
-        files = generate_video(
-            "A cat playing piano",
-            base_url="https://your-service:3000",
-        )
+
+        # 720p 横屏 5 秒（全部默认）
+        files = generate_video("A cat playing piano",
+                               base_url="https://your-service:3000")
+
+        # 1080p 竖屏 10 秒高画质档
+        files = generate_video("A cat playing piano",
+                               base_url="https://your-service:3000",
+                               resolution="1080p", aspect="9:16",
+                               duration=10, quality="standard")
     """
     client = ComfyUI(base_url)
 
     workflow = build_t2v_workflow(
         prompt_text, width, height, length,
+        duration=duration, resolution=resolution, aspect=aspect,
         seed=seed, quality=quality, steps=steps, cfg=cfg,
     )
 
